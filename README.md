@@ -60,15 +60,18 @@ Django form models will be the following:
 
 # Schedule
 - Week 1 (Nov 21 - Nov 25)
-   - [ ] Setup Django project and app to connect properly with database
+   - [ ] ~~Setup Django project and app to connect properly with database~~
    - [ ] Get basic html/css for pages complete w/ input forms
-   - [ ] Link html pages with different views
-   - [ ] Create Sleep Facts/Information/Tips/Warnings Database
-   - [ ] Create Memojis (total: 10)
+   - [ ] ~~Link html pages with different views~~
+   - [x] Create Sleep Facts/Information/Tips/Warnings Database
+   - [x] Create Memojis (total: 10)
+   - [x] Create Sleep Score algorithm
 - Week 2 (Nov 28 - Dec 2)
-   - [ ] Create Sleep Score algorithm
+   - [ ] ~~Create Sleep Score algorithm~~
    - [ ] Set up Vis.js for graphs
    - [ ] Create functions to out different memojis and facts/tips/warnings depending on sleep score
+   - [ ] Setup Django project and app to connect properly with database
+   - [ ] Link html pages with different views
 - Week 3 (Dec 5 - Dec 9)
    - [ ] Stylize and build functionality as much as possible utilizing GreenSock and javascript prior to deadline
  
