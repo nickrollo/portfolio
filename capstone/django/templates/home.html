@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,6 +11,32 @@
     {% csrf_token %}
     <div id="app">
         <h1>Welcome to Sleep Dues</h1>
+        <div v-for="user in userData">
+            <p>[[ user ]]</p>
+            <p>[[ user.user_age ]]</p>
+        </div>
+        
+        <div>
+            <input type="text" placeholder="First Name" v-model="newUser.user_first_name">
+            <input type="text" placeholder="Last Name" v-model="newUser.user_last_name">
+            <input type="number" placeholder="Age" v-model="newUser.user_age">
+            <button @click="createUser">Create</button>
+        </div>
+        {% comment %} <p>[[ message ]]</p> {% endcomment %}
     </div>
+
+
+ <!-- Import Ajax -->
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+ <!-- Import Vue.js -->
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+ <!-- Import file.js -->
+ <script src="{% static '/app.js' %}"></script>
+
+ <!-- Mount App -->
+ <script> const mountApp = app.mount('#app') </script>
+
 </body>
 </html>
