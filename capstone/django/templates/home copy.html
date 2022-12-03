@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Dues</title>
+</head>
+<body>
+    {% csrf_token %}
+    <div id="app">
+
+        <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1>
+
+        {% if user.is_authenticated %}
+
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'signup' %}">Signup</a>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+
+        {% comment %} <h1>Welcome to Sleep Dues</h1> {% endcomment %}
+        <div v-for="user in userData">
+            <p>[[ user ]]</p>
+            <p>[[ user.user_age ]]</p>
+        </div>
+        
+        <div>
+            <input type="text" placeholder="username" v-model="userSleepData.username">
+            <input type="text" placeholder="first name" v-model="userSleepData.user_first_name">
+            <input type="text" placeholder="last name" v-model="userSleepData.user_last_name">
+            <input type="number" placeholder="age" v-model="userSleepData.user_age">
+            {% comment %} <input type="number" placeholder="Hours of Sleep" v-model="userSleepData.sleep_hours">
+            <input type="date" v-model="userSleepData.date"> {% endcomment %}
+            <button @click="uploadSleepData">Upload Sleep Data</button>
+        </div>
+        {% comment %} <p>[[ message ]]</p> {% endcomment %}
+    </div>
+
+
+ <!-- Import Ajax -->
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+ <!-- Import Vue.js -->
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+ <!-- Import file.js -->
+ <script src="{% static '/app.js' %}"></script>
+
+ <!-- Mount App -->
+ <script> const mountApp = app.mount('#app') </script>
+
+</body>
+</html>
