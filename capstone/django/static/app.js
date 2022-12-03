@@ -2,16 +2,19 @@ const app = Vue.createApp({
     delimiters: ['[[', ']]'],
     data(){
         return{
-            message: 'hello world',
-
             currentUser: {},
             csrfToken: '',
             userData: [],
-            newUser: {
-                "user_first_name" : "",
+            userSleepData: {
+                "username": "",
+                "user_first_name": "",
                 "user_last_name": "",
                 "user_age": "",
-            }
+            },
+            userDates: [],
+            userHours: [],
+            // labels: '',
+            // datas: '',
         }
     },
     methods: {
@@ -25,7 +28,7 @@ const app = Vue.createApp({
                 }
             )
         },
-        createUser() {
+        uploadSleepData() {
             
             axios({
                 method: 'post',
@@ -34,9 +37,11 @@ const app = Vue.createApp({
                     'X-CSRFToken': this.csrfToken
                 },
                 data: {
-                    "user_first_name" : this.newUser.user_first_name,
-                    "user_last_name": this.newUser.user_last_name,
-                    "user_age": this.newUser.user_age,
+                    "username": this.userSleepData.username,
+                    "user_first_name": this.userSleepData.user_first_name,
+                    "user_last_name": this.userSleepData.user_last_name,
+                    "user_age": this.userSleepData.user_age, 
+                    
                 }
             }).then( response => {
                 this.loadUserData()
@@ -53,18 +58,77 @@ const app = Vue.createApp({
                 url: '/users/currentuser/'
             }).then(response => {
                 console.log('CU', response.data)
-                this.currentUser = response.data
-            })
+                this.currentUser = response.data,
+                this.currentUser.sleep_detail.forEach(sleep => {
+                    this.userHours.push(sleep.sleep_hours)
+                    this.userDates.push(sleep.date)
+                });
+                console.log('userHours', this.userHours)
+                console.log('userDates', this.userDates)
+                // labels = document.getElementById('userDates').value;
+                // datas = document.getElementById('userHours').value;
+                const ctx = document.getElementById('myChart');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: this.userDates,
+                        datasets: [{
+                        label: '# of Votes',
+                        data: this.userHours,
+                        borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        }
+                    }
+                    });
+                })
+            },
+
+
+
+        async uploadGraph(){
+            const ctx = document.getElementById('myChart');
+            let labels = await document.getElementById('userDates').value;
+            let datas = await document.getElementById('userHours').value;
+            console.log("labels", labels)
+
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: '# of Votes',
+                  data: datas,
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+
         }
 
     },
     created: function() {
-        this.loadUserData()
-        // this.loadCurrentUser()
+        // this.loadUserData()
+        this.loadCurrentUser()
     },
     mounted(){
         this.csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value
-      
+        // this.uploadGraph()
+        
+       
+        
        
     }
 })

@@ -1,11 +1,12 @@
 from django.db import models
+from users.models import CustomUser
 
 # Create your models here.
 
 class Sleep(models.Model):
-    user_first_name = models.CharField(max_length=200)
-    user_last_name = models.CharField(max_length=200)
-    user_age = models.IntegerField()
+    user_id = models.ForeignKey(CustomUser, related_name="sleeps", on_delete=models.CASCADE)
+    sleep_hours = models.IntegerField()
+    date = models.DateField()
 
     def __str__(self):
-        return self.user_first_name
+        return str(self.user_id)
