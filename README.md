@@ -69,7 +69,7 @@ Django form models will be the following:
 - Week 2 (Nov 28 - Dec 2)
    - [ ] ~~Create Sleep Score algorithm~~
    - [X] Set up Vis.js for graphs
-   - [ ] Create functions to out different memojis and facts/tips/warnings depending on sleep score
+   - [X] Create functions to out different memojis and facts/tips/warnings depending on sleep score
    - [X] Setup Django project and app to connect properly with database
    - [ ] Link html pages with different views
 - Week 3 (Dec 5 - Dec 9)
