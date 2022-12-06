@@ -79,6 +79,7 @@ const app = Vue.createApp({
                         }]
                     },
                     options: {
+                        responsive: true, 
                         scales: {
                         y: {
                             beginAtZero: true
@@ -90,34 +91,6 @@ const app = Vue.createApp({
             },
 
 
-
-        async uploadGraph(){
-            const ctx = document.getElementById('myChart');
-            let labels = await document.getElementById('userDates').value;
-            let datas = await document.getElementById('userHours').value;
-            console.log("labels", labels)
-
-            new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: [{
-                  label: '# of Votes',
-                  data: datas,
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            });
-
-        }
-
     },
     created: function() {
         // this.loadUserData()
@@ -125,7 +98,7 @@ const app = Vue.createApp({
     },
     mounted(){
         this.csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value
-        // this.uploadGraph()
+ 
         
        
         

@@ -13,39 +13,59 @@
     {% csrf_token %}
     <div id="app">
         <header>
-            <h1>Sleep Dues</h1>
-            <h3>Welcome</h3>
-            <h3>[[ currentUser.username ]]</h3>
-            <nav class="nav">
-                <div class="nav__list">
-                    {% if user.is_authenticated %}
-                        {% comment %} <a href="{% url 'blog_users:profile' user.username %}" class="nav__list-item">{{user}}</a> {% endcomment %}
-                        {% comment %} <a href="{% url 'blog_posts:write' %}" class="nav__list-item">Write</a>  {% endcomment %}
-                        <a href="{% url 'logout' %}" class="nav__list-item">Log out</a>
-                    {% else %} 
-                        {% comment %} <a href="{% url 'blog_posts:home' %}" class="nav__list-item">View Only</a> {% endcomment %}
-                        <a href="{% url 'signup' %}" class="nav__list-item">Register</a>
-                        <a href="{% url 'login' %}" class="nav__list-item">Log In</a>
-                    {% endif %}
-                </div>
+            <img id="logo" src="https://cdn.cp.adobe.io/content/2/dcx/1a952aba-9e35-495e-98da-2831d6d9587f/rendition/preview.jpg/version/1/format/jpg/dimension/width/size/1200" alt="Computer man"/> 
+            <h1>Sleep Dues Header</h1> 
+            <nav id="navBar">
+                <a href="#" class="headerList">Home</a>
+                <a href="#" class="headerList">How it works</a>
+                <a href="#" class="headerList">About Us</a>
+                <a href="#" class="headerList">Contact Us</a>
+                <a href="#" class="headerList">Get Started</a>
             </nav>
         </header>
-        {% comment %} <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1>
-        <h1>[[ (currentUser.sleep_detail.reverse())[0].sleep_hours ]]</h1>
-        <h1>[[ currentUser.sleep_detail[1].sleep_hours ]]</h1>
-        <h1>[[ currentUser.sleep_detail[2].sleep_hours ]]</h1> {% endcomment %}
-    
-        <div id="dynamicSection">
-            <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1>
-            
-            {% include 'graph.html' %}
+        <div class="columns">
+            <div id="left" class="sidebar">
+                <h1>Sleep Dues</h1>
+                <h3>Welcome</h3>
+                <h3>[[ currentUser.username ]]</h3>
+                <nav class="nav">
+                    <div class="nav__list">
+                        {% if user.is_authenticated %}
+                            {% comment %} <a href="{% url 'blog_users:profile' user.username %}" class="nav__list-item">{{user}}</a> {% endcomment %}
+                            {% comment %} <a href="{% url 'blog_posts:write' %}" class="nav__list-item">Write</a>  {% endcomment %}
+                            <a href="{% url 'logout' %}" class="nav__list-item">Log out</a>
+                        {% else %} 
+                            {% comment %} <a href="{% url 'blog_posts:home' %}" class="nav__list-item">View Only</a> {% endcomment %}
+                            <a href="{% url 'signup' %}" class="nav__list-item">Register</a>
+                            <a href="{% url 'login' %}" class="nav__list-item">Log In</a>
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
+            <div id="right" class="mainBody">
+                {% if user.is_authenticated %}
+                    {% include 'nonuser.html' %}
+                {% else %}
+                {% endif %}
 
-            <p id="userDates">[[ userDates ]]</p>
-            <p id="userHours">[[ userHours ]]</p>
-            
-            
-            <img class="memojis" src="https://media4.giphy.com/media/dQgl5JyyjHxABAqrWR/giphy.gif?cid=790b7611448d11fec6b4df088e42fd52657ecf0462e0d1de&rid=giphy.gif&ct=g" alt="Computer man" style="width:300px;height:300px;" />
+                {% comment %} <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1>
+                {% include 'graph.html' %}
+                <img class="memojis" src="https://media4.giphy.com/media/dQgl5JyyjHxABAqrWR/giphy.gif?cid=790b7611448d11fec6b4df088e42fd52657ecf0462e0d1de&rid=giphy.gif&ct=g" alt="Computer man" style="width:300px;height:300px;" /> {% endcomment %}
+            </div>
         </div>
+        {% comment %} <h1>[[ (currentUser.sleep_detail.reverse())[0].sleep_hours ]]</h1>
+        <h1>[[ currentUser.sleep_detail[1].sleep_hours ]]</h1>
+        <h1>[[ currentUser.sleep_detail[2].sleep_hours ]]</h1> {% endcomment %} 
+    
+        {% comment %} <div id="dynamicSection"> {% endcomment %}
+            {% comment %} <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1> {% endcomment %}
+            
+
+            {% comment %} <p id="userDates">[[ userDates ]]</p>
+            <p id="userHours">[[ userHours ]]</p> {% endcomment %}
+            
+            
+        {% comment %} </div> {% endcomment %}
     
     </div>
 
