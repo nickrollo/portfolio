@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from users.models import CustomUser
 from sleep_app.models import Sleep
+from .models import Quote, Mood
 
 
 class NestedSleepSerializer(serializers.ModelSerializer):
@@ -11,8 +12,12 @@ class NestedSleepSerializer(serializers.ModelSerializer):
 class NestedUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'user_first_name', 'user_last_name', 'user_age')
+        fields = ('id', 'username', 'user_first_name', 'user_last_name', 'user_age', 'user_sex')
 
+class NestedQuoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quote
+        fields = ('id', 'text', 'source',)        
 
 class SleepSerializer(serializers.ModelSerializer):
     user_detail = NestedUserSerializer(source='user_id', read_only=True)
@@ -24,4 +29,16 @@ class UserSerializer(serializers.ModelSerializer):
     sleep_detail = NestedSleepSerializer(many=True, read_only=True, source='sleeps')
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'user_first_name', 'user_last_name', 'user_age', 'sleep_detail']
+        fields = ['id', 'username', 'user_first_name', 'user_last_name', 'user_age', 'user_sex', 'sleep_detail']
+
+
+class QuoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Quote
+        fields = ('id', 'text', 'source', 'mood')
+
+class MoodSerializer(serializers.ModelSerializer):
+    quotes = NestedQuoteSerializer(source='quote_set', many=True)
+    class Meta:
+        model = Mood
+        fields = ('id', 'name', 'quotes')
