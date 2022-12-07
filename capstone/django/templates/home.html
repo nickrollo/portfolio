@@ -44,8 +44,9 @@
             </div>
             <div id="right" class="mainBody">
                 {% if user.is_authenticated %}
-                    {% include 'nonuser.html' %}
+                {% include 'user.html' %}
                 {% else %}
+                {% include 'nonuser.html' %}
                 {% endif %}
 
                 {% comment %} <h1>Welcome [[ currentUser.username ]] to Sleep Dues</h1>
