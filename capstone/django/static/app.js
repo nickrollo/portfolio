@@ -2,8 +2,28 @@ const app = Vue.createApp({
     delimiters: ['[[', ']]'],
     data(){
         return{
-            currentUser: {},
             csrfToken: '',
+            currentUser: {},
+            sleepLog: [], 
+            averageHours: '',
+            sleepX1: '',
+            sleepX2: '',
+            sleepX3: '',
+            sleepX5: '',
+            userAge: '',
+            userGender: '',
+            chartDates: [],
+            chartHours: [],
+            userSleepScore: '',
+            userMemoji: '',
+            userMood: '',
+            textChest: [],
+            currentTextIndex: 0,
+            moodText: 'Let\'s learn some things...',
+            moodSource:'',
+            
+            
+            
             userData: [],
             userSleepData: {
                 "username": "",
@@ -11,24 +31,20 @@ const app = Vue.createApp({
                 "user_last_name": "",
                 "user_age": "",
             },
-            userDates: [],
-            userHours: [],
-            userMemoji: "",
             mood: {},
-            quote: "",
-            quotes: [],
-            currentQuoteIndex: 0,
         }
     },
 
     mounted(){
         this.csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value
         this.loadCurrentUser()
-        this.loadQuote()
-        this.getQuotes();
-        setInterval(this.showNextQuote, 5000);
-        // this.sleepScore()
 
+        setTimeout(() => {
+            this.weightedSleepScore(this.sleepX1, this.sleepX2, this.sleepX3, this.sleepX5);
+            this.createChart()
+            this.loadTextChest()
+            setInterval(this.showNextQuote, 8000);
+          }, 2000);
     },
 
     // watch: {
@@ -43,104 +59,50 @@ const app = Vue.createApp({
     // },
 
     methods: {
-        loadQuote(){
-            axios({
-                method: 'get',
-                url: 'api/v1/quotes/'
-            }).then(response => {
-                this.mood = response.data
-                console.log(response.data)
-                const randomIndex = Math.floor(Math.random() * response.data.length);
-                this.quote = response.data[randomIndex].text;
-                console.log(this.quote)
+        arrangeSleepData(){
+            this.sleepLog.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                if (dateB < dateA) {
+                  return -1;
                 }
-            )
+                else if (dateB > dateA) {
+                  return 1;
+                }
+                else {
+                  return 0;
+                }
+            });
         },
-        showNextQuote() {
-            // If the current quote index is at the end of the array, reset the index to 0
-            if (this.currentQuoteIndex >= this.quotes.length - 1) {
-              this.currentQuoteIndex = 0;
-            } else {
-              // Otherwise, increment the current quote index
-              this.currentQuoteIndex++;
-            }
-      
-            // Update the quote data property with the quote at the current index
-            this.quote = this.quotes[this.currentQuoteIndex].text;
-        },
-        uploadSleepData(){
-            axios({
-                method: 'post',
-                url: '/api/v1/sleep_app/',
-                headers: {
-                    'X-CSRFToken': this.csrfToken
-                },
+        createChart(){
+            this.sleepLog.forEach(dataPoint => {
+                this.chartDates.push(dataPoint.date);
+                this.chartHours.push(dataPoint.sleep_hours);
+            });
+            console.log('5CD', this.chartDates);
+            console.log('6CH', this.chartHours);
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'line',
                 data: {
-                    "username": this.userSleepData.username,
-                    "user_first_name": this.userSleepData.user_first_name,
-                    "user_last_name": this.userSleepData.user_last_name,
-                    "user_age": this.userSleepData.user_age, 
-                }
-            }).then( response => {
-                this.loadUserData()
-                console.log(response.data)
-            }).catch(error => {
-                console.log(error.response)
-            })
-        },
-
-        loadCurrentUser(){
-            axios({
-                method: 'get',
-                url: '/users/currentuser/'
-            }).then(response => {
-                console.log('CU', response.data)
-                this.currentUser = response.data,
-                this.currentUser.sleep_detail.forEach(sleep => {
-                    this.userHours.push(sleep.sleep_hours)
-                    this.userDates.push(sleep.date)
-                });
-                console.log('userHours', this.userHours)
-                console.log('userDates', this.userDates)
-                // labels = document.getElementById('userDates').value;
-                // datas = document.getElementById('userHours').value;
-                const ctx = document.getElementById('myChart');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: this.userDates.reverse(),
-                        datasets: [{
+                    labels: this.chartDates.reverse(),
+                    datasets: [{
                         label: 'Hours of Sleep',
-                        data: this.userHours.reverse(),
+                        data: this.chartHours.reverse(),
                         borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
                         y: {
                             beginAtZero: true
                         }
-                        }
                     }
-                });
-                let sleepScorex1 = this.sleepScore(this.userHours.reverse()[0], this.currentUser.user_age)
-                let sleepScorex2 = this.sleepScore(this.userHours.reverse()[1], this.currentUser.user_age)
-                let sleepScorex3 = this.sleepScore(this.userHours.reverse()[2], this.currentUser.user_age)
-                console.log(sleepScorex1)
-                console.log(sleepScorex2)
-                console.log(sleepScorex3)
-                let sleepAverage = (this.userHours.reverse()[0] + this.userHours.reverse()[1] + this.userHours.reverse()[2])/3
-                let sleepAveragex5 = this.sleepScore(sleepAverage, this.currentUser.user_age)
-                console.log(sleepAveragex5)
-                console.log(sleepAverage)
-                let userSleepScore = this.scoreGroup(sleepScorex1, sleepScorex2, sleepScorex3, sleepAveragex5, this.currentUser.user_sex)
-                this.userMemoji = userSleepScore
-                // this.loadQuote()
-            })
+                }
+            });
         },
         sleepScore(hours, age){
-            console.log('sleepscore', this.currentUser.user_age)
             if (hours >= 0 && hours < 5) {
                 return 1
             }
@@ -182,55 +144,128 @@ const app = Vue.createApp({
                     return 5
                 }
             }
-            
         }, 
-        scoreGroup(scorex1, scorex2, scorex3, scorex5, male) {
-            const weightx1 = 0.35
-            const weightx2 = 0.35
-            const weightx3 = 0.35
-            const weightx5 = 0.35
-
-            let totalSleepScore = ((scorex1 * weightx1) + (scorex2 * weightx2) + (scorex3 * weightx3) + (scorex5 * weightx5))
-
-            if (male === false) {
+        calculateSleepScore(){
+            this.averageHours = (this.sleepLog[0].sleep_hours + this.sleepLog[1].sleep_hours + this.sleepLog[2].sleep_hours) / 3;
+            this.sleepX1 = this.sleepScore(this.sleepLog[0].sleep_hours, this.userAge);
+            this.sleepX2 = this.sleepScore(this.sleepLog[1].sleep_hours, this.userAge);
+            this.sleepX3 = this.sleepScore(this.sleepLog[2].sleep_hours, this.userAge);
+            this.sleepX5 = this.sleepScore(this.averageHours, this.userAge);
+            console.log('7x1', this.sleepX1);
+            console.log('8x5', this.sleepX5);
+        },
+        weightedSleepScore(scorex1, scorex2, scorex3, scorex5) {
+            const weightx1 = 0.35;
+            const weightx2 = 0.25;
+            const weightx3 = 0.2;
+            const weightx5 = 0.2;
+            
+            this.userSleepScore = ((scorex1 * weightx1) + (scorex2 * weightx2) + (scorex3 * weightx3) + (scorex5 * weightx5));
+            console.log('9USS', this.userSleepScore);
+        },
+        memojiOutput(male, totalSleepScore) {
+            if (male === true) {
                 if (totalSleepScore < 1.6) {
-                    return ('https://media0.giphy.com/media/wE19ivfoD5fTHXemFu/giphy.gif')
+                    return ['https://media0.giphy.com/media/wE19ivfoD5fTHXemFu/giphy.gif', '0']
                 }
                 else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media1.giphy.com/media/H8cRORkJRICBfBUb6N/giphy.gif')
+                    return ['https://media1.giphy.com/media/H8cRORkJRICBfBUb6N/giphy.gif', '1']
                 }
-                else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media3.giphy.com/media/dQgl5JyyjHxABAqrWR/giphy.gif')
+                else if (totalSleepScore >= 2.44 && totalSleepScore < 3.28) {
+                    return ['https://media3.giphy.com/media/dQgl5JyyjHxABAqrWR/giphy.gif', '2']
                 }
-                else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media0.giphy.com/media/OCKPmZoJZSrQ9OW9GC/giphy.gif')
+                else if (totalSleepScore >= 3.28 && totalSleepScore < 4.12) {
+                    return ['https://media0.giphy.com/media/OCKPmZoJZSrQ9OW9GC/giphy.gif', '3']
                 }
                 else {
-                    return ('https://media4.giphy.com/media/5mBCYxJ7PHidsZVRkf/giphy.gif')
+                    return ['https://media4.giphy.com/media/5mBCYxJ7PHidsZVRkf/giphy.gif', '4']
                 }
             }
             else {
                 if (totalSleepScore < 1.6) {
-                    return ('https://media3.giphy.com/media/57AUZG8ZLvWkrzQYBh/giphy.gif')
+                    return ['https://media3.giphy.com/media/57AUZG8ZLvWkrzQYBh/giphy.gif', '0']
                 }
                 else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media1.giphy.com/media/7Vlz6G2Cqtvz3Z7KWB/giphy.gif')
+                    return ['https://media1.giphy.com/media/7Vlz6G2Cqtvz3Z7KWB/giphy.gif', '1']
                 }
-                else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media2.giphy.com/media/Ja0CpU6AQzukz0xb6J/giphy.gif')
+                else if (totalSleepScore >= 2.44 && totalSleepScore < 3.28) {
+                    return ['https://media2.giphy.com/media/Ja0CpU6AQzukz0xb6J/giphy.gif', '2']
                 }
-                else if (totalSleepScore >= 1.6 && totalSleepScore < 2.44) {
-                    return ('https://media1.giphy.com/media/e34oyThs8eSqTlKus3/giphy.gif?cid=790b7611db0e8bf0a5bbbf2b6311c4cbaa63d59085c5acb6&rid=giphy.gif&ct=g')
+                else if (totalSleepScore >= 3.28 && totalSleepScore < 4.12) {
+                    return ['https://media1.giphy.com/media/e34oyThs8eSqTlKus3/giphy.gif?cid=790b7611db0e8bf0a5bbbf2b6311c4cbaa63d59085c5acb6&rid=giphy.gif&ct=g', '3']
                 }
                 else {
-                    return ('https://media2.giphy.com/media/576yXG0R6Lq94hwrdF/giphy.gif')
+                    return ['https://media2.giphy.com/media/576yXG0R6Lq94hwrdF/giphy.gif', '4']
                 }
             }
+        },
+        loadCurrentUser(){
+            axios({
+                method: 'get',
+                url: '/users/currentuser/'
+            }).then(response => {
+                this.currentUser = response.data;
+                this.userAge = response.data.user_age;
+                this.userGender = response.data.user_sex;
+                this.sleepLog = response.data.sleeps;
+                this.arrangeSleepData();
+                console.log('1CU', this.currentUser);
+                console.log('2gender', this.userGender);
+                console.log('3sleep log', this.sleepLog);
+                console.log('4age', this.userAge);
+                this.calculateSleepScore();
+                this.weightedSleepScore(this.sleepX1, this.sleepX2, this.sleepX3, this.sleepX5);
+                this.userMemoji = this.memojiOutput(this.userGender, this.userSleepScore)[0]; 
+                this.userMood = this.memojiOutput(this.userGender, this.userSleepScore)[1]; 
+                console.log('10memoji', this.userMemoji);
+                console.log('11mood', this.userMood);
+            }) 
+        },
+        loadTextChest(){
+            axios({
+                method: 'get',
+                url: 'api/v1/moods/'
+            }).then(response => {
+                this.textChest = response.data[this.userMood].quotes;
+                console.log('mood', response.data);
+                console.log('12', this.textChest);
+                }
+            )
+        },
+        showNextQuote() {
+            if (this.currentTextIndex >= this.textChest.length - 1) {
+              this.currentTextIndex = 0;
+            } else {
+              this.currentTextIndex++;
+            }
+            this.moodText = this.textChest[this.currentTextIndex].text;
+            this.moodSource = this.textChest[this.currentTextIndex].source;
+        },
+        uploadSleepData(){
+            axios({
+                method: 'post',
+                url: '/api/v1/sleep_app/',
+                headers: {
+                    'X-CSRFToken': this.csrfToken
+                },
+                data: {
+                    "username": this.userSleepData.username,
+                    "user_first_name": this.userSleepData.user_first_name,
+                    "user_last_name": this.userSleepData.user_last_name,
+                    "user_age": this.userSleepData.user_age, 
+                }
+            }).then( response => {
+                this.loadUserData()
+                console.log(response.data)
+            }).catch(error => {
+                console.log(error.response)
+            })
+        },
+    },
+        created: function() {
+            setTimeout(function() {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('mainElement').style.display = 'block';
+              }, 3000);
         }
-    }
 })
-
-    // created: function() {
-    //     // this.loadUserData()
-        
-    // }
