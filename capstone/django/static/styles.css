@@ -144,6 +144,26 @@ header {
     text-decoration: none;
 }
 
+/* The styles for the spinning circle */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 10px solid #ccc;
+    border-top-color: #333;
+    margin: auto;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
 /* .memojis {
 
 }  */

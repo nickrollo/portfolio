@@ -1,7 +1,11 @@
 <h1>Welcome [[ currentUser.username ]], here's a snapshot of your sleep data!</h1>
-{% include 'graph.html' %}
-<img v-bind:src="userMemoji" class="memojis" alt="Computer man" style="width:300px;height:300px;" />
-<p id="record">[[ quote ]]</p>
-{% comment %} <h1>[[ (currentUser.sleep_detail.reverse())[0].sleep_hours ]]</h1>
-<h1>[[ currentUser.sleep_detail[1].sleep_hours ]]</h1>
-<h1>[[ currentUser.sleep_detail[2].sleep_hours ]]</h1> {% endcomment %}
+<div id=loadingSpinner style="display: block;">
+    <div class=spinner></div>
+    <p class=record>Loading...</p>
+</div>
+<div id=mainElement style="display: none;">
+    {% include 'graph.html' %}
+    <img v-bind:src="userMemoji" class="memojis" alt="Computer man" style="width:300px;height:300px;" />
+    <p id="record">[[ moodText ]]</p>
+    <p id="record">[[ moodSource ]]</p>
+</div>

@@ -4,8 +4,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register('sleeps', views.PostSleepSet, basename='sleep')
-router.register('users', views.SleepAPIView, basename='users')
+router.register('users', views.PostSleepSet, basename='users')
+router.register('sleeps', views.SleepAPIView, basename='sleeps')
 router.register('quotes', views.QuoteViewSet)
 router.register('moods', views.MoodViewSet)
 
