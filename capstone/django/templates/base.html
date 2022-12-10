@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sleep Dues</title>
+        
+        {% block styles %}
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/header.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/sidebar.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/footer.css">
+        {% endblock styles %}
+            
+    </head>
+    <body>
+        <header>
+            {% include 'header.html' %}
+            <h1>Sleep Dues Header</h1> 
+            <nav id="navBar">
+                <a href="#" class="headerList">Home</a>
+                <a href="#" class="headerList">How it works</a>
+                <a href="#" class="headerList">About Us</a>
+                <a href="#" class="headerList">Contact Us</a>
+                <a href="#" class="headerList">Get Started</a>
+            </nav>
+        </header>
+        <nav>
+            {% include 'sidebar.html' %}
+        </nav> 
+        <main>
+            {% include 'user_mainview.html' %}
+        </main>
+        <div class="columns">
+            <div id="left" class="sidebar">
+                <h1>Sleep Dues</h1>
+                <nav class="nav">
+                    <div class="nav__list">
+                    </div>
+                </nav>
+            </div>
+            <div id="right" class="mainBody">
+                {% block user_home %}
+                <p>HI</p>
+                {% endblock user_home %}   
+            </div>
+        </div>
+    </body>
+</html>

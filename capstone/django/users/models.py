@@ -17,4 +17,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def delete(self):
+        self.delete()
 # Create your models here.

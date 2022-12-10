@@ -21,16 +21,15 @@ const app = Vue.createApp({
             currentTextIndex: 0,
             moodText: 'Let\'s learn some things...',
             moodSource:'',
+            userSleepData: {
+                "user_id": null,
+                "sleep_hours": null,
+                "date": null,
+            },
             
             
             
             userData: [],
-            userSleepData: {
-                "username": "",
-                "user_first_name": "",
-                "user_last_name": "",
-                "user_age": "",
-            },
             mood: {},
         }
     },
@@ -244,22 +243,36 @@ const app = Vue.createApp({
         uploadSleepData(){
             axios({
                 method: 'post',
-                url: '/api/v1/sleep_app/',
+                url: '/api/v1/sleeps/',
                 headers: {
                     'X-CSRFToken': this.csrfToken
                 },
                 data: {
-                    "username": this.userSleepData.username,
-                    "user_first_name": this.userSleepData.user_first_name,
-                    "user_last_name": this.userSleepData.user_last_name,
-                    "user_age": this.userSleepData.user_age, 
+                    "user_id": this.currentUser.id,
+                    "sleep_hours": this.userSleepData.sleep_hours,
+                    "date": this.userSleepData.date,
                 }
             }).then( response => {
-                this.loadUserData()
                 console.log(response.data)
+                window.location.href = '/';
             }).catch(error => {
                 console.log(error.response)
             })
+        },
+        deleteSleepRecord(id) {
+            axios({
+                method: 'delete',
+                url: `/api/v1/sleeps/${id}/`,
+                headers: {
+                    'X-CSRFToken': this.csrfToken
+                }
+            }).then(response => {
+                // Remove the deleted sleep record from the sleepLog array
+                window.location.href = '/account/';
+                this.sleepLogDeleted = true;
+            }).catch(error => {
+                console.log(error.response);
+            });
         },
     },
         created: function() {

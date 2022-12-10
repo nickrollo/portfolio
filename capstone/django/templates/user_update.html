@@ -1,0 +1,42 @@
+{% extends 'home.html' %}
+
+{% block user_update %}
+
+<h1>Post Sleep Record</h1>
+
+<form id="form">
+    {% csrf_token %}
+    <label for="id_date">Date:</label><br>
+    <input type="date" name="date" id="id_date" v-model="userSleepData.date"><br>
+    <label for="id_sleep_hours">Sleep Hours:</label><br>
+    <input type="number" name="sleep_hours" id="id_sleep_hours" v-model="userSleepData.sleep_hours"><br><br>
+    <button @click="uploadSleepData">Upload</button>
+</form>
+<br>
+
+<!-- Use a container to center the table -->
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Sleep Hours</th>
+                <th>Delete Record</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="sleep in sleepLog" :key="sleep.id">
+                <td>[[ sleep.date ]]</td>
+                <td>[[ sleep.sleep_hours ]]</td>
+                <td>
+                    <button @click="deleteSleepRecord(sleep.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+{% endblock %}

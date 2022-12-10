@@ -4,5 +4,6 @@ from . import views
 app_name = 'sleep_app'
 
 urlpatterns = [
-    path('', views.SleepListView.as_view(), name='home')
+    path('', views.home_template, name='home'),
+    path('account/', views.post_sleep_record, name='post_sleep_record'),
 ]

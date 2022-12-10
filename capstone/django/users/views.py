@@ -5,13 +5,13 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 from api.serializers import UserSerializer
 from api.permissions import IsAuthorOrReadOnly
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserCreationForm
 
 # Create your views here.
 
@@ -30,10 +30,3 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-# class ProfileView(LoginRequiredMixin, DetailView):
-#     model = User
-#     template_name = './blog_users/users_profile.html'
-#     context_object_name = 'user_profile'
-
-#     def get_object(self):
-#         return get_object_or_404(User, username=self.kwargs['username'])
