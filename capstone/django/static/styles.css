@@ -6,29 +6,43 @@
 * {
     padding: 0px; 
     margin: 0px;  
-    border: 1px solid red;
+    /* border: 1px solid red; */
     box-sizing: border-box;
 }
 
 html {
-    height: 100%;
+    /* height: 100%; */
     background-color: #07010b;
     color: white;
 }
 
+body {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 header {
+
+}
+
+/* .header-icon {
     display: flex;
-    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
 }
 
 #logo {
     height: 3rem;
     width: 3rem;
-    /* margin-left: -1rem; */
+    cursor: pointer;
+    margin-left: -1rem;
     position: absolute;
     left: 1rem
+} */
 
-}
+
 
 #navBar {
     display: flex;
@@ -51,7 +65,7 @@ header {
     
 }
 .sidebar {
-    background-color: rgb(21, 52, 80);
+    background-color: #07010b;
     color: rgb(248, 228, 204);
     /* padding: 1rem; */
     /* padding-top: 5%; */
@@ -64,6 +78,9 @@ header {
     /* height: 90%; */
     /* max-width: 10%; */
     flex-grow: .1;
+    position: fixed;
+    height: 100%;
+    width: 15%;
 }
 
 /* .userRegister {
@@ -84,6 +101,7 @@ header {
 .mainBody {
     flex-grow: 1;
     overflow-y: auto;
+    margin-left: 15%;
 }
 
 #right {
@@ -142,6 +160,10 @@ header {
     border-radius: 500px;
     background-color: green;
     text-decoration: none;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
 }
 
 /* The styles for the spinning circle */
@@ -217,3 +239,100 @@ header {
     text-overflow: ellipsis;
     width: 25rem;
 } */
+/* 
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+} */
+
+#form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 30%;
+}
+
+#sloganContainer {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#slogan {
+    /* object-fit: contain; */
+
+}
+
+.sloganText {
+    color: rgb(255, 255, 255);
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
+    font-size: x-large;
+}
+
+.slider-card {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slider-card__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+}
+
+.slider-card__content.is-active {
+    transform: translateX(-100%);
+}
+
+.slider-card__text {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    text-align: center;
+}
+
+#quote-card {
+    font-size: 20px;
+    font-weight: bold;
+    color: blue;
+}
+
+#quote-card p:first-child {
+    font-size: 20px;
+    font-weight: bold;
+    color: blue;
+}
+
+#quote-card p:last-child {
+    font-style: italic;
+    color: green;
+}

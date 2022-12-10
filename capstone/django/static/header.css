@@ -1,0 +1,17 @@
+
+
+.header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logo {
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+    /* margin-left: -1rem; */
+    /* position: absolute; */
+    /* left: 1rem */
+
+}
