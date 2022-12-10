@@ -7,7 +7,7 @@ from .models import Quote, Mood
 class NestedSleepSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sleep
-        fields = ('date', 'sleep_hours')
+        fields = ('id', 'date', 'sleep_hours')
 
 class NestedUserSerializer(serializers.ModelSerializer):
     class Meta:
