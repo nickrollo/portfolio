@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="{% static 'header.css' %}">
 
     
-{% if not request.path == '/'  and not user.is_authenticated %}
+{% if request.path == '/' %}
+    <p class="header-icon"></p> 
+{% else %} 
     <a class="header-icon" href="{% url 'sleep_app:home' %}">
         <img id="logo" src="https://cdn.cp.adobe.io/content/2/dcx/1a952aba-9e35-495e-98da-2831d6d9587f/rendition/preview.jpg/version/1/format/jpg/dimension/width/size/1200" alt="Home icon"/> 
     </a>
-{% else %} 
-    <p class="header-icon"></p>
 {% endif %}

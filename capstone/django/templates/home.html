@@ -20,12 +20,19 @@
         </header>
         <div class="columns">
             <div id="left" class="sidebar">
-                <a class="header-icon" href="{% url 'sleep_app:home' %}">
-                    <img id="logo" src="https://cdn.cp.adobe.io/content/2/dcx/bc638dc4-e5ba-49c4-9969-b7bdaea1cda8/rendition/preview.jpg/version/3/format/jpg/dimension/width/size/1200" alt="Home icon"/> 
-                </a>
+                {% if  request.path == '/'  and not user.is_authenticated %}
+                    <p class="header-icon"></p>
+                {% else %} 
+                    <a class="header-icon" href="{% url 'sleep_app:home' %}">
+                        <img id="logo" src="https://cdn.cp.adobe.io/content/2/dcx/cdfaf2a5-7900-4a8f-9c3c-bb6e2dc74b05/rendition/preview.jpg/version/0/format/jpg/dimension/width/size/1200" alt="Home icon"/> 
+                    </a>
+                    <br>
+                {% endif %}
+
                 <nav class="nav">
                     <div class="nav__list">
                         {% if user.is_authenticated %}
+                            <p id=sidebarIcon></p>
                             <p>Welcome [[ currentUser.username ]]</p>
                             <a href="{% url 'sleep_app:post_sleep_record' %}" class="nav__list-item">Sleep Log</a>
                             <a href="{% url 'logout' %}" class="nav__list-item">Log out</a>

@@ -2,16 +2,18 @@
 
 {% block user_update %}
 
-<h1>Post Sleep Record</h1>
 
-<form id="form">
-    {% csrf_token %}
-    <label for="id_date">Date:</label><br>
-    <input type="date" name="date" id="id_date" v-model="userSleepData.date"><br>
-    <label for="id_sleep_hours">Sleep Hours:</label><br>
-    <input type="number" name="sleep_hours" id="id_sleep_hours" v-model="userSleepData.sleep_hours"><br><br>
-    <button @click="uploadSleepData">Upload</button>
-</form>
+<div class="register-form"> 
+    <h1>Post Sleep Record</h1>
+    <form >
+        {% csrf_token %}
+        <label for="id_date">Date:</label><br>
+        <input type="date" name="date" id="id_date" v-model="userSleepData.date"><br>
+        <label for="id_sleep_hours">Sleep Hours:</label><br>
+        <input type="number" name="sleep_hours" id="id_sleep_hours" v-model="userSleepData.sleep_hours"><br><br>
+        <button @click="uploadSleepData" class=fancyButton>Upload</button>
+    </form>
+</div>
 <br>
 
 <!-- Use a container to center the table -->
