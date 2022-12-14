@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from rest_framework import generics, viewsets, permissions
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
@@ -29,4 +29,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CustomUser
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
 

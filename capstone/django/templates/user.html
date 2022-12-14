@@ -1,24 +1,33 @@
 {% csrf_token %}
 
-
-<h1>Welcome [[ currentUser.username ]], here's a snapshot of your sleep data!</h1>
-<div id=loadingSpinner style="display: block;">
-    <div class=spinner></div>
-    <p class=record>Loading...</p>
+<div id="sleepHealth">
+    <p>Sleep Health Data</p>
 </div>
+<div id="loadingSpinner" style="display: block;">
+    <div class="spinner"></div>
+</div>
+
 <div id=mainElement style="display: none;">
-    {% include 'graph.html' %}
-    <img v-bind:src="userMemoji" class="memojis" alt="Computer man" style="width:300px;height:300px;" />
-    <div class="slider-card">
-        <div class="slider-card__content is-active">
-            <div class="slider-card__text">[[ moodText ]]</div>
-            <div class="slider-card__text">[[ moodSource ]]</div>
+    <div v-if="sleepLog.length >= 3">
+        {% include 'graph.html' %}
+        <div id="underGraph">
+            <img v-bind:src="userMemoji" class="memojis" alt="Computer man" style="width:300px;height:300px;" />
+            <div id="quoteCard">
+                <br><br>
+                <p id="record">[[ moodText ]]</p>
+                <br>
+                <p id="record">[[ moodSource ]]</p>
+            </div>
         </div>
     </div>
-    <p id="record">[[ moodText ]]</p>
-    <p id="record">[[ moodSource ]]</p>
-    <div id="quote-card">
-        {{ showNextQuote() }}
+
+    <div id="subText" v-else>
+        <br>
+        <p>Sorry, we need some more sleep data to work with.</p>
+        <p>Catch those ZzZ and check back in when you have logged at least 3 nights.</p>
+        <img id="subTextLogo" src="https://cdn.cp.adobe.io/content/2/dcx/e1ab8475-b9a8-4742-b9e5-e6df13c3aaad/rendition/preview.jpg/version/1/format/jpg/dimension/width/size/1200" style="width:300px;height:300px;" />
     </div>
+
+    
 </div>
 

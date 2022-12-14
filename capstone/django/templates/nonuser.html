@@ -1,5 +1,5 @@
-{% comment %} <h1>MAIN BODY</h1>
-<img class="memojis" src="https://media4.giphy.com/media/dQgl5JyyjHxABAqrWR/giphy.gif?cid=790b7611448d11fec6b4df088e42fd52657ecf0462e0d1de&rid=giphy.gif&ct=g" alt="Computer man" style="width:300px;height:300px;" /> {% endcomment %}
+{% csrf_token %}
+
 <div id=sloganContainer>
     <img id="slogan" src="https://cdn.cp.adobe.io/content/2/dcx/52d57b73-4a84-4421-adc1-d305349193ff/rendition/preview.jpg/version/3/format/jpg/dimension/width/size/1200" />
 </div>
@@ -8,11 +8,14 @@
         <img class="memojis" src="https://media1.giphy.com/media/5mBCYxJ7PHidsZVRkf/giphy.gif" alt="Computer man" style="width:150px;height:150px;" /> 
         <img class="memojis" src="https://media2.giphy.com/media/wE19ivfoD5fTHXemFu/giphy.gif" alt="Computer man" style="width:150px;height:150px;" /> 
     </div>
-    <div class="bodyColumns">
+    <div class="textColumn">
         <div class="sloganText">
-            <p>Learn more about how sleep can affect your mind and body</p>
-            <p>SIGN UP FOR SLEEP DUES HERE</p>
+            <br>
+            <p>Learn more about how sleep can affect your [[ word ]].</p>
+            <br>
+            <p>SIGN UP FOR SLEEP DUES NOW!</p>
         </div>
+        <br>
         <a href="{% url 'signup' %}" id="startButton">START HERE</a>
     </div>
     <div class="bodyColumns">

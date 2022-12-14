@@ -26,23 +26,23 @@ const app = Vue.createApp({
                 "sleep_hours": null,
                 "date": null,
             },
-            
-            
-            
-            userData: [],
-            mood: {},
+            words: ["MIND", "BODY", "SOUL", "EMOTIONS", "FRIENDS", "FAMILY", "DRIVING", "WORK", "MOOD", "TASTE", "HEALTH"],
+            word: 'MOOD',
+            index: 0,
+            sentence: "",
         }
     },
 
     mounted(){
         this.csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value
         this.loadCurrentUser()
+        
 
         setTimeout(() => {
             this.weightedSleepScore(this.sleepX1, this.sleepX2, this.sleepX3, this.sleepX5);
             this.createChart()
             this.loadTextChest()
-            setInterval(this.showNextQuote, 8000);
+            setInterval(this.showNextQuote, 6500);
           }, 2000);
     },
 
@@ -58,6 +58,18 @@ const app = Vue.createApp({
     // },
 
     methods: {
+        newWord(){
+            setInterval(() => {
+                // Update the input field with the current word
+                this.word = this.words[this.index];
+                this.index++;
+                if (this.index >= this.words.length) {
+                  setTimeout(() => {
+                    this.index = 0;
+                  }, 1000);
+                }
+              }, 1250);
+        },
         arrangeSleepData(){
             this.sleepLog.sort((a, b) => {
                 const dateA = new Date(a.date);
@@ -276,6 +288,7 @@ const app = Vue.createApp({
         },
     },
         created: function() {
+            this.newWord(),
             setTimeout(function() {
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('mainElement').style.display = 'block';
