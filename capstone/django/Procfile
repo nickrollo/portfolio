@@ -1,2 +1,2 @@
-web: cd capstone cd django && gunicorn sleep_dues.wsgi
-release: cd capstone cd django && python manage.py migrate
+web: cd capstone && gunicorn sleep_dues.wsgi
+release: cd capstone && python manage.py migrate
