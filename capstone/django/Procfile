@@ -1,2 +1,0 @@
-web: gunicorn sleep_dues.wsgi
-release: python manage.py migrate
